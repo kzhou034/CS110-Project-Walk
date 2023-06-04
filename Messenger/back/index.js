@@ -14,12 +14,8 @@ const server = http.createServer(app);
 
 
 // TODO: add cors to allow cross origin requests
-const io = socketIO(server, {
-  cors: {
-    origin: '*',
-  }
-});
-app.use(cors({origin: 'http://localhost:3000', credentials:true }))
+
+
 
 
 dotenv.config();
@@ -30,33 +26,13 @@ app.use(bodyParser.json());
 
 // Connect to the database
 // TODO: your code here
-mongoose.connect(process.env.MONGO_URL);
-const database = mongoose.connection;
-database.on('error', (error) => console.error(error));
-database.once('open', () => console.log('Connected to Database'));
+
 
 
 // Set up the session
 // TODO: your code here
-const sessionMiddleware = session({
-  resave: false,
-  saveUninitialized: false,
-  secret: process.env.SESSION_SECRET,
-})
-app.use(sessionMiddleware);
 
-io.use((socket, next) => {
-  sessionMiddleware(socket.request, {}, next);
-});
-io.use((socket, next) => {
-  //check if user is authenticated
-  if (socket.request.session && socket.request.session.authenticated) {
-    next();
-  } else {
-    console.log("unauthorized")
-    next(new Error('unauthorized'));
-  }
-});
+
 
 
 const routes = require('./routes/auth');
