@@ -11,6 +11,17 @@ class Lobby extends react.Component{
 
     componentDidMount(){
         // TODO: write codes to fetch all rooms from server
+        fetch(this.props.server_url + '/api/rooms/all', {
+            method: "GET",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        }).then((res) => {
+            res.json().then((data) => {
+                this.setState({rooms:data})
+            })
+        });
     }
 
 
