@@ -17,11 +17,13 @@ router.get('/all', (req, res) => {
 
 router.post('/create', (req, res) => {
     // TODO: write necassary codesn to Create a new room
+    console.log("create");
 });
 
 
 router.post('/join', (req, res) => {
     // TODO: write necassary codes to join a new room
+    console.log("join");
 });
 
 router.delete('/leave', (req, res) => {
