@@ -28,12 +28,8 @@ router.post('/login', async (req, res) => {
 
 // Set up a route for the logout page
 router.get('/logout', (req, res) => {
-  if (req.session) {
-    console.log("goodbye")
-  }
   // Clear the session data and redirect to the home page
   req.session.destroy();
-  res.redirect("/");
   res.send({msg: "Logged out", status: true})
 });
 
