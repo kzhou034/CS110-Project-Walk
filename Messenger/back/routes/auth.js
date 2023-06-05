@@ -8,6 +8,9 @@ router.post('/login', async (req, res) => {
     const {session} = req;
     const { username, password } = req.body;
 
+    console.log("this is session:" + req)
+    console.log("this is reqbody:" + req.body)
+    
     // check if user in database
     const user = await User.findOne({ username });
     
@@ -24,27 +27,30 @@ router.post('/login', async (req, res) => {
 
 // Set up a route for the logout page
 router.get('/logout', (req, res) => {
-    // Clear the session data and redirect to the home page
-    req.session.destroy();
-    res.send({msg: "Logged out", status: true})
-  });
+  // Clear the session data and redirect to the home page
+  req.session.destroy();
+  res.send({msg: "Logged out", status: true})
+});
 
-  router.post('/signup', async (req, res)=>{
-    console.log("user is trying to signup")
-    const {username, password, name} = req.body;
-    console.log(username, password, name)
-    const user = new User ({
-        username: username,
-        password: password,
-        name: name
-    })
-  
-    try{
-        const dataSaved = await user.save();
-        res.status(200).json(dataSaved);
-    }
-    catch (error){
-        console.log(error);
-        res.send("ERROR!")
-    }
+router.post('/signup', async (req, res)=>{
+  console.log("user is trying to signup")
+  const {username, password, name} = req.body;
+  console.log("this is the req.body: " + req.body)
+  console.log(username, password, name)
+  const user = new User ({
+      username: username,
+      password: password,
+      name: name
   })
+
+  try{
+      const dataSaved = await user.save();
+      console.log("datasaved: " + dataSaved)
+      res.status(200).json(dataSaved);
+  }
+  catch (error){
+      console.log(error);
+      res.send("ERROR!")
+  }
+  
+});
