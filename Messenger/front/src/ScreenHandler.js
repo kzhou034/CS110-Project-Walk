@@ -2,6 +2,7 @@ import react from "react";
 import Auth from './Screens/Auth.js';
 import Lobby from "./Screens/Lobby.js";
 import Chatroom from "./Screens/Chatroom.js";
+import { Button } from '@mui/material';
 
 const server_url = "http://localhost:3001";
 
@@ -40,6 +41,27 @@ class ScreenHandler extends react.Component{
         this.setState({screen: screen});
     }
 
+    logout = (data) => {
+        fetch(server_url + '/api/auth/logout', {
+            method: "GET",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            }
+            
+        }).then((res) => {
+            res.json().then((data) => {
+                if (data.message == "logged in"){
+                    this.setState({screen: "lobby"});
+                }
+                else{
+                    this.setState({screen: "auth"});
+                }
+            });
+        });
+        console.log("server url:" + server_url)
+    }
+
     render(){
         let display = "loading...";
         if (this.state.screen == "auth"){
@@ -53,6 +75,7 @@ class ScreenHandler extends react.Component{
         }
         return(
             <div>
+                <Button onClick={this.logout}>Logout</Button>
                 {display}
             </div>
         );

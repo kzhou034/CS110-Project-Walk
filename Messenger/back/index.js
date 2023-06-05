@@ -45,21 +45,8 @@ const sessionMiddleware = session({
 })
 app.use(sessionMiddleware);
 
-io.use((socket, next) => {
-  sessionMiddleware(socket.request, {}, next);
-});
-io.use((socket, next) => {
-  //check if user is authenticated
-  if (socket.request.session && socket.request.session.authenticated) {
-    next();
-  } else {
-    console.log("unauthorized")
-    next(new Error('unauthorized'));
-  }
-});
 
-
-const routes = require('./routes/auth');
+const auth = require('./routes/auth');
 const rooms = require('./routes/rooms');
 
 
@@ -74,7 +61,7 @@ app.get('/', (req, res) => {
 });
 
 
-app.use("/api/auth/", routes);
+app.use("/api/auth/", auth);
 
 
 // checking the session before accessing the rooms
@@ -97,7 +84,18 @@ server.listen(process.env.PORT, () => {
 
 // TODO: make sure that the user is logged in before connecting to the socket
 // TODO: your code here
-
+io.use((socket, next) => {
+  sessionMiddleware(socket.request, {}, next);
+});
+io.use((socket, next) => {
+  //check if user is authenticated
+  if (socket.request.session && socket.request.session.authenticated) {
+    next();
+  } else {
+    console.log("unauthorized")
+    next(new Error('unauthorized'));
+  }
+});
 
 
 io.on('connection', (socket)=>{
