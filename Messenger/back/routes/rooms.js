@@ -38,10 +38,14 @@ router.post('/create', async (req, res) => {
 
     );
     
+    //look through rooms folder in database and finds one room with the name "name"
+    //set room1 equal to that room
     const room1 = await Room.findOne({name});
 
+    console.log("room1 name: " + room1)
+
     try{
-        if (!room1) {
+        if (!room1) { //if room1 is null, run this
             //looks through users folder in database and gets the rooms field to update
             let user = await User.findOne({username: req.session.username});
             user.rooms.push(name);
@@ -53,6 +57,9 @@ router.post('/create', async (req, res) => {
             // console.log("datasaved: " + dataSaved)
             res.status(200).json(user);
         }
+        else {
+            console.log("room already exists")
+        }
     }
     catch (error){
         console.log(error);
@@ -63,18 +70,41 @@ router.post('/create', async (req, res) => {
 
 router.post('/join', async (req, res) => {
     // TODO: write necassary codes to join a new room
-    const {name} = req.body;
+    var {name} = req.body;
+    name = name.toLowerCase();
+    //look through rooms folder in database and finds one room with the name "name"
+    //set room1 equal to that room
+    const room1 = await Room.findOne({name});
+
+    console.log("room1 name: " + room1)
     try{
-        let user = await User.findOne({username: req.session.username});
-        user.rooms.push(name);
-        user = await user.save();
-        res.status(200).json(user);
+        if (room1) {//if room exists
+            let user = await User.findOne({username: req.session.username});
+            let inRoom = false;
+            for(let i=0; i<user.rooms.length; i++){
+                if (name == user.rooms[i])
+                    inRoom = true;
+            }
+            if (inRoom) {//if user is already in the room
+                console.log("user is already in room")
+            }
+            else { //otherwise, push the room in
+                user.rooms.push(name);
+                user = await user.save();
+                res.status(200).json(user);
+                console.log("user joined room")
+            }
+            
+        }
+        else { //else, room doesn't exist
+            console.log("room does not exist")
+        }
     }
     catch (error){
         console.log(error);
         res.send("ERROR!")
     }
-    console.log("join");
+    console.log("join finished");
 });
 
 router.delete('/leave', async (req, res) => {
