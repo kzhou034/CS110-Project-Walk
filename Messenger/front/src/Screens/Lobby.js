@@ -55,6 +55,19 @@ class Lobby extends react.Component{
         });
     }
     
+    leave = (data) => {
+        // TODO: write codes to join room
+        fetch(this.props.server_url + '/api/rooms/leave', {
+            method: "DELETE",
+            mode: 'cors',
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+                'Accept': "application/json"
+            },
+            body: JSON.stringify(data),
+        });
+    }
 
     render(){
         let fields = [];
@@ -69,6 +82,7 @@ class Lobby extends react.Component{
                     <Form fields={fields} type="Create Room" submit={this.create} key={this.rooms}/>
                 {/* write codes to join a new room using room id */}
                     <Form fields={fields} type="Join Room" submit={this.join} key={this.rooms}/>
+                    <Form fields={fields} type="Leave Room" submit={this.leave} key={this.rooms}/>
             </div>
         );
     }
