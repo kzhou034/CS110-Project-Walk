@@ -13,6 +13,7 @@ class ScreenHandler extends react.Component{
 
         this.state = {
             screen: undefined,
+            roomID: undefined
         }
     }
 
@@ -39,6 +40,10 @@ class ScreenHandler extends react.Component{
 
     changeScreen = (screen) => {
         this.setState({screen: screen});
+    }
+
+    changeRoom = (roomID) => {
+        this.setState({roomID: roomID})
     }
 
     logout = (data) => {
