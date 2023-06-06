@@ -8,15 +8,17 @@ const router = express.Router()
 module.exports = router;
 
 // temporary rooms
-var rooms = []
+
 
 //Get all the rooms
 router.get('/all', async (req, res) => {
+    let ourRooms = [];
     let user = await User.findOne({username: req.session.username});
+    // console.log("saokdo" + user.rooms.length);
     for(let i=0; i<user.rooms.length; i++){
-        rooms.push(user.rooms[i].name);
+        ourRooms.push(user.rooms[i].name);
     }
-    res.send(rooms);
+    res.send(ourRooms);
 });
 
 
@@ -58,6 +60,7 @@ router.post('/create', async (req, res) => {
 
 router.post('/join', (req, res) => {
     // TODO: write necassary codes to join a new room
+    
     console.log("join");
 });
 
