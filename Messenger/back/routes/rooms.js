@@ -1,4 +1,6 @@
 const express = require('express');
+const Room = require('../model/room');
+const User = require('../model/user');
 const router = express.Router()
 // TODO: add rest of the necassary imports
 
@@ -6,18 +8,51 @@ const router = express.Router()
 module.exports = router;
 
 // temporary rooms
-rooms = ["room1", "room2", "room3"]
+var rooms = []
 
 //Get all the rooms
-router.get('/all', (req, res) => {
-    // TODO: you have to check the database to only return the rooms that the user is in
-    res.send(rooms)
+router.get('/all', async (req, res) => {
+    let user = await User.findOne({username: req.session.username});
+    for(let i=0; i<user.rooms.length; i++){
+        rooms.push(user.rooms[i].name);
+    }
+    res.send(rooms);
 });
 
 
-router.post('/create', (req, res) => {
+router.post('/create', async (req, res) => { 
     // TODO: write necassary codesn to Create a new room
-    console.log("create");
+    console.log("create!"); 
+    console.log("user " + req.session.username +" is trying to create room");
+    const {name} = req.body;
+    // console.log("this is the req.body: " + req.body)
+    console.log("roomName: " + req.body.name)
+    const room = new Room (
+        
+        {
+            name: name,
+        }
+
+    );
+
+    // console.log(room.name)
+
+    try{
+        let user = await User.findOne({username: req.session.username});
+        user.rooms.push(room);
+        user = await user.save();
+
+        // const dataSaved = await room.save();
+        // console.log("username: " + req.session.username);
+        // rooms.push(room);
+        // console.log("THE ROOM IS SIZE:" + rooms.length);
+        // console.log("datasaved: " + dataSaved)
+        res.status(200).json(user);
+    }
+    catch (error){
+        console.log(error);
+        res.send("ERROR!")
+    }
 });
 
 

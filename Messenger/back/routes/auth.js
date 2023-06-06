@@ -4,6 +4,16 @@ const router = express.Router()
 
 module.exports = router;
 
+router.post('/'), async (req, res) => {
+    const {session} = req;
+    if(session.authenticated){
+      res.json({msg: username, status: true});
+    }
+    else{
+      res.json({msg: "Not logged in", status: false})
+    }
+  };
+
 router.post('/login', async (req, res) => {
     const {session} = req;
     const { username, password } = req.body;

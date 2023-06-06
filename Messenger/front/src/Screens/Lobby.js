@@ -7,6 +7,7 @@ class Lobby extends react.Component{
         super(props);
         this.state = {
             rooms: undefined,
+            user: undefined
         }
     }
 
@@ -24,9 +25,40 @@ class Lobby extends react.Component{
             })
         });
     }
+    
+    create = (data) => {
+        // TODO: write codes to register
+        fetch(this.props.server_url + '/api/rooms/create', {
+            method: "POST",
+            mode: 'cors',
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+                'Accept': "application/json"
+            },
+            body: JSON.stringify(data),
+        });
+        console.log(data);
+    }
 
+    join = (data) => {
+        // TODO: write codes to join room
+        fetch(this.props.server_url + '/api/rooms/join', {
+            method: "POST",
+            mode: 'cors',
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+                'Accept': "application/json"
+            },
+            body: JSON.stringify(data),
+        });
+    }
+    
 
     render(){
+        let fields = [];
+        fields = ['name'];
         return(
             <div>
                 <h1>Lobby</h1>
@@ -34,21 +66,9 @@ class Lobby extends react.Component{
                     return <Button variant="contained" key={"roomKey"+room} onClick={() => alert(room)}>{room}</Button>
                 }) : "loading..."}
                 {/* write codes to enable user to create a new room*/}
-                <form action="http://localhost:3001/api/rooms/create" method="POST">
-                    <div>
-                        <label>Create a New Room</label>
-                        <input></input>
-                    </div>
-                    <button type="submit">Submit</button>
-                </form>
+                    <Form fields={fields} type="Create Room" submit={this.create} key={this.rooms}/>
                 {/* write codes to join a new room using room id */}
-                <form action="http://localhost:3001/api/rooms/join" method="POST">
-                    <div>
-                        <label>Join an Existing Room</label>
-                        <input></input>
-                    </div>
-                    <button type="submit">Submit</button>
-                </form>
+                    <Form fields={fields} type="Join Room" submit={this.join} key={this.rooms}/>
             </div>
         );
     }

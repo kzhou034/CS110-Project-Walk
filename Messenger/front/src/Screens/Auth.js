@@ -49,15 +49,15 @@ class Auth extends react.Component{
                 'Accept': "application/json"
             },
             body: JSON.stringify(data),
-        }).then((res) => {
-            res.json().then((data) => {
-                // if(data.msg == "Logged in") {
-                //     this.props.changeScreen("lobby");
-                // }
-                // else {
-                //     alert(data.msg);
-                // }
-            });
+        // }).then((res) => {
+        //     res.json().then((data) => {
+        //         // if(data.msg == "Logged in") {
+        //         //     this.props.changeScreen("lobby");
+        //         // }
+        //         // else {
+        //         //     alert(data.msg);
+        //         // }
+        //     });
         });
         console.log(data);
     }
