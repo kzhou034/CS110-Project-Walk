@@ -13,7 +13,8 @@ class ScreenHandler extends react.Component{
 
         this.state = {
             screen: undefined,
-            roomID: undefined
+            roomID: undefined,
+            username: undefined,
         }
     }
 
@@ -30,6 +31,7 @@ class ScreenHandler extends react.Component{
             res.json().then((data) => {
                 if (data.message == "logged in"){
                     this.setState({screen: "lobby"});
+                    this.setUsername(data.username);
                 }
                 else{
                     this.setState({screen: "auth"});
@@ -43,7 +45,11 @@ class ScreenHandler extends react.Component{
     }
 
     changeRoom = (roomID) => {
-        this.setState({roomID: roomID})
+        this.setState({roomID: roomID});
+    }
+
+    setUsername = (username) => {
+        this.setState({username: username});
     }
 
     logout = (data) => {
@@ -70,17 +76,17 @@ class ScreenHandler extends react.Component{
     render(){
         let display = "loading...";
         if (this.state.screen == "auth"){
-            display = <Auth server_url = {server_url} changeScreen={this.changeScreen}/>;
+            display = <Auth server_url = {server_url} changeScreen={this.changeScreen} setUsername={this.setUsername}/>;
         }
         else if (this.state.screen == "lobby"){
             display = 
             <div>
                 <Button onClick={this.logout}>Logout</Button>
-                <Lobby server_url = {server_url}/>
+                <Lobby server_url = {server_url} changeScreen={this.changeScreen} changeRoom={this.changeRoom} roomID={this.state.roomID}/>;
             </div>
         }
         else if (this.state.screen == "chatroom"){
-            display = <Chatroom server_url = {server_url}/>;
+            display = <Chatroom server_url = {server_url} changeScreen={this.changeScreen} changeRoom={this.changeRoom} roomID={this.state.roomID} username={this.state.username}/>;
         }
         return(
             <div>

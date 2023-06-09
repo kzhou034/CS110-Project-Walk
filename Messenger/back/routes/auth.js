@@ -1,6 +1,6 @@
 const express = require('express');
 const User = require('../model/user');
-const router = express.Router()
+const router = express.Router();
 
 module.exports = router;
 
@@ -30,9 +30,13 @@ router.post('/login', async (req, res) => {
       return res.json({ msg: "Incorrect Password", status: false });
     else {
       session.authenticated = true;
+      console.log("\n");
+      console.dir(session, {depth:null})
+      console.log("\n");
+      console.log("\n");
       session.username = username;
-      res.json({ msg: "Logged in", status: true });
-      console.log("logged in!")
+      res.json({ msg: "Logged in", status: true, username: username });
+      console.log("logged in!!!")
     }
 });
 

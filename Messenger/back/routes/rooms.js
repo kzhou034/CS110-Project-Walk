@@ -14,9 +14,8 @@ module.exports = router;
 router.get('/all', async (req, res) => {
     let ourRooms = [];
     let user = await User.findOne({username: req.session.username});
-    // console.log("saokdo" + user.rooms.length);
     for(let i=0; i<user.rooms.length; i++){
-        ourRooms.push(user.rooms[i]/*.name*/);
+        ourRooms.push(user.rooms[i].name);
     }
     res.send(ourRooms);
 });
@@ -48,13 +47,9 @@ router.post('/create', async (req, res) => {
         if (!room1) { //if room1 is null, run this
             //looks through users folder in database and gets the rooms field to update
             let user = await User.findOne({username: req.session.username});
-            user.rooms.push(name);
+            user.rooms.push(room);
             user = await user.save();
             const dataSaved = await room.save();
-            // console.log("username: " + req.session.username);
-            // rooms.push(room);
-            // console.log("THE ROOM IS SIZE:" + rooms.length);
-            // console.log("datasaved: " + dataSaved)
             res.status(200).json(user);
         }
         else {
@@ -82,14 +77,14 @@ router.post('/join', async (req, res) => {
             let user = await User.findOne({username: req.session.username});
             let inRoom = false;
             for(let i=0; i<user.rooms.length; i++){
-                if (name == user.rooms[i])
+                if (name == user.rooms[i].name)
                     inRoom = true;
             }
             if (inRoom) {//if user is already in the room
                 console.log("user is already in room")
             }
             else { //otherwise, push the room in
-                user.rooms.push(name);
+                user.rooms.push(room1);
                 user = await user.save();
                 res.status(200).json(user);
                 console.log("user joined room")
@@ -114,7 +109,7 @@ router.delete('/leave', async (req, res) => {
         let user = await User.findOne({username: req.session.username});
 
         for(let i=0; i<user.rooms.length; i++){
-            if (name == user.rooms[i])
+            if (name == user.rooms[i].name)
                 user.rooms.splice(i, 1);
         }
         
@@ -126,4 +121,10 @@ router.delete('/leave', async (req, res) => {
         res.send("ERROR!")
     }
     console.log("leave");
+});
+
+router.get('/:roomID', async (req, res) => {
+    const roomID = req.params.roomID;
+    const room = await Room.findOne({ name: roomID });
+    if(room) res.send(room);
 });

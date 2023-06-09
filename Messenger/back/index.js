@@ -11,22 +11,20 @@ const bodyParser = require( 'body-parser');
 const app = express(); 
 const server = http.createServer(app);
 
-
+const Messages = require("./model/messages");
 
 // TODO: add cors to allow cross origin requests
 const io = socketIO(server, {
   cors: {
-    origin: '*',
-  }
+    origin: "*"
+  },
 });
-app.use(cors({origin: 'http://localhost:3000', credentials:true }))
 
+app.use(cors({origin: 'http://localhost:3000', credentials:true }))
 
 dotenv.config();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
-
 
 // Connect to the database
 // TODO: your code here
@@ -34,7 +32,6 @@ mongoose.connect(process.env.MONGO_URL);
 const database = mongoose.connection;
 database.on('error', (error) => console.error(error));
 database.once('open', () => console.log('Connected to Database'));
-
 
 // Set up the session
 // TODO: your code here
@@ -87,19 +84,31 @@ server.listen(process.env.PORT, () => {
 io.use((socket, next) => {
   sessionMiddleware(socket.request, {}, next);
 });
+
 io.use((socket, next) => {
-  //check if user is authenticated
   if (socket.request.session && socket.request.session.authenticated) {
     next();
   } else {
-    console.log("unauthorized")
-    next(new Error('unauthorized'));
+    console.log("unauthorized");
+    next(new Error("unauthorized"));
   }
 });
 
-
 io.on('connection', (socket)=>{
-  console.log("user connected")
+  console.log("user connected!!!!!!!!!!")
   // TODO: write codes for the messaging functionality
   // TODO: your code here
-})
+  socket.on("disconnect", ()=>{
+      console.log("connection/socket user Disconnected");
+  });
+
+  socket.on("sendMessage", async (message) => {
+    const newMessage =  new Messages({
+      message: message,
+      sender: message.sender,
+      room: message.room
+    });
+    await newMessage.save();
+    io.emit('incomingMessage', message);
+  });
+});

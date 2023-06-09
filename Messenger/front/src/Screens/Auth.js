@@ -1,10 +1,18 @@
 import react from "react";
 import Form from "../Components/form.js";
 import { Button } from "@mui/material";
+import {io} from "socket.io-client";
 
 class Auth extends react.Component{
     constructor(props){
         super(props);
+        this.socket = io("http://localhost:3001", {
+            cors: {
+                origin: "http://localhost:3001",
+                credentials: true,
+            },
+            transports: ["websocket"],
+        });
         this.state = {
             showForm: false,
             selectedForm: undefined,
@@ -23,13 +31,14 @@ class Auth extends react.Component{
             credentials: "include",
             headers: {
                 "Content-Type": "application/json",
-                'Accept': "application/json"
+                Accept: "application/json"
             },
             body: JSON.stringify(data),
         }).then((res) => {
             res.json().then((data) => {
                 if(data.msg == "Logged in") {
                     this.props.changeScreen("lobby");
+                    this.props.setUsername(data.username);
                 }
                 else {
                     alert(data.msg);
@@ -49,15 +58,15 @@ class Auth extends react.Component{
                 'Accept': "application/json"
             },
             body: JSON.stringify(data),
-        // }).then((res) => {
-        //     res.json().then((data) => {
-        //         // if(data.msg == "Logged in") {
-        //         //     this.props.changeScreen("lobby");
-        //         // }
-        //         // else {
-        //         //     alert(data.msg);
-        //         // }
-        //     });
+        }).then((res) => {
+            res.json().then((data) => {
+                if(data.msg == "Logged in") {
+                    this.props.changeScreen("lobby");
+                }
+                else {
+                    alert(data.msg);
+                }
+            });
         });
         console.log(data);
     }

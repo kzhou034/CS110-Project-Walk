@@ -2,6 +2,10 @@ import react from "react";
 import Form from "../Components/form.js";
 import { Button } from "@mui/material";
 
+// const socketIO = require('socket.io');
+import {io} from "socket.io-client";
+const socket = io.connect("http://localhost:3001");
+
 class Lobby extends react.Component{
     constructor(props){
         super(props);
@@ -38,7 +42,8 @@ class Lobby extends react.Component{
             },
             body: JSON.stringify(data),
         });
-        console.log(data);
+        this.state.rooms.push(data.name);
+        this.setState({ rooms: this.state.rooms });
     }
 
     join = (data) => {
@@ -53,6 +58,8 @@ class Lobby extends react.Component{
             },
             body: JSON.stringify(data),
         });
+        this.state.rooms.push(data.name);
+        this.setState({ rooms: this.state.rooms });
     }
     
     leave = (data) => {
@@ -69,6 +76,11 @@ class Lobby extends react.Component{
         });
     }
 
+    enterChat = (roomID) => {
+        this.props.changeRoom(roomID);
+        this.props.changeScreen("chatroom");
+    };
+
     render(){
         let fields = [];
         fields = ['name'];
@@ -76,7 +88,7 @@ class Lobby extends react.Component{
             <div>
                 <h1>Lobby</h1>
                 {this.state.rooms ? this.state.rooms.map((room) => {
-                    return <Button variant="contained" key={"roomKey"+room} onClick={() => alert(room)}>{room}</Button>
+                    return <Button variant="contained" key={"roomKey"+room} onClick={() => this.enterChat(room)}>{room}</Button>
                 }) : "loading..."}
                 {/* write codes to enable user to create a new room*/}
                     <Form fields={fields} type="Create Room" submit={this.create} key={this.rooms}/>

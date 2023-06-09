@@ -1,5 +1,7 @@
 import react from "react";
+import { Button } from '@mui/material';
 import {io} from 'socket.io-client'
+// import room from "../../../back/model/room";
 
 class Chatroom extends react.Component{
     constructor(props){
@@ -12,26 +14,45 @@ class Chatroom extends react.Component{
         });
         this.state = {
             messages: [],
-            text: ''
+            text: '',
+            room: null,
         }
     }
 
     componentDidMount() {
-        console.log("rooms: " + this.props.rooms);
-        let data = {};
-        data["roomID"] = this.props.roomID
-        console.log("roomID: " + data["roomID"])
-        fetch(this.props.server_url + '/api/rooms/' + data["roomID"], {
-            method: "POST",
+        fetch(this.props.server_url + `/api/rooms/` + this.props.roomID, {
+            method: "GET",
             credentials: "include",
             headers: {
                 "Content-Type": "application/json",
             }
         }).then((res) => {
             res.json().then((data) => {
-                this.setState({rooms:data})
+                this.setState({room: data})
             })
         });
+    }
+
+    returnToLobby = () => {
+        this.props.changeScreen("lobby");
+    };
+
+    handleChange = (e) => {
+        this.setState({ text: e.target.value });
+    }
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        if(this.state.text.trim() != "") {
+            console.log(this.props.username)
+            const newMessage = {
+                text: this.state.text,
+                sender: this.props.username,
+                room: this.state.room._id
+            };
+            this.socket.emit("sendMessage", newMessage);
+            this.setState({text: ""});
+        }
     }
 
     render(){
@@ -39,10 +60,15 @@ class Chatroom extends react.Component{
             <div>
                 {/* show chats */}
                 {/* show chat input box*/}
-                Chatroom
+                <Button onClick={this.returnToLobby}>Return to Lobby</Button>
+                <h1>Current Chatroom: {this.props.roomID}</h1>
                 <ul>
-                    {this.state.messages.map((message) => <li> (message.message.text) </li>)}
+                    {this.state.messages.map((message) => <li> {message.message.text} </li>)}
                 </ul>
+                <form id="content" onSubmit={this.handleSubmit} >
+                    <input id="newPost_text" type="text" placeholder='Send a message...' onChange={this.handleChange}></input>
+                    <button id="newPost_submit" >Submit</button>
+                </form>
             </div>
         );
     }
