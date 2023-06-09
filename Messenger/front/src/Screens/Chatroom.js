@@ -1,9 +1,9 @@
-import react from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from '@mui/material';
 import {io} from 'socket.io-client'
 // import room from "../../../back/model/room";
 
-class Chatroom extends react.Component{
+class Chatroom extends React.Component{
     constructor(props){
         super(props);
         this.socket = io('http://localhost:3001', {
@@ -28,9 +28,24 @@ class Chatroom extends react.Component{
             }
         }).then((res) => {
             res.json().then((data) => {
-                this.setState({room: data})
+                this.setState({messages: data.messages})
+                this.setState({room: data.room})
             })
+        }).then(() => {
+            this.socket.on("incomingMessage", this.incomingMessage);
         });
+    }
+
+    incomingMessage = (message) => {
+        const newMessage = {
+            message: {
+                text: message.text,
+            },
+            room: message.room,
+            sender: message.sender,
+        }
+        const updatedMessageList = [...this.state.messages, newMessage];
+        this.setState({ messages: updatedMessageList });
     }
 
     returnToLobby = () => {
@@ -56,6 +71,7 @@ class Chatroom extends react.Component{
     }
 
     render(){
+        const messageList = this.state.messages;
         return(
             <div>
                 {/* show chats */}
@@ -63,7 +79,12 @@ class Chatroom extends react.Component{
                 <Button onClick={this.returnToLobby}>Return to Lobby</Button>
                 <h1>Current Chatroom: {this.props.roomID}</h1>
                 <ul>
-                    {this.state.messages.map((message) => <li> {message.message.text} </li>)}
+                    {messageList.map((message) => {
+                        return <li>
+                            <strong>{message.sender}: </strong>
+                            {message.message.text}
+                        </li>
+                    })}
                 </ul>
                 <form id="content" onSubmit={this.handleSubmit} >
                     <input id="newPost_text" type="text" placeholder='Send a message...' onChange={this.handleChange}></input>

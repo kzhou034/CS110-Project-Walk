@@ -2,6 +2,7 @@ const express = require('express');
 const Room = require('../model/room');
 const User = require('../model/user');
 const router = express.Router()
+const Message = require("../model/messages")
 // TODO: add rest of the necassary imports
 
 
@@ -126,5 +127,9 @@ router.delete('/leave', async (req, res) => {
 router.get('/:roomID', async (req, res) => {
     const roomID = req.params.roomID;
     const room = await Room.findOne({ name: roomID });
-    if(room) res.send(room);
+    if(room) {
+        const id = room._id;
+        const messages = await Message.find({room: id});
+        res.json({messages: messages, room: room});
+    }
 });
