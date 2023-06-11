@@ -17,6 +17,7 @@ class Chatroom extends React.Component{
             messages: [],
             text: '',
             room: null,
+            scroll: undefined
         }
     }
 
@@ -75,14 +76,14 @@ class Chatroom extends React.Component{
         const messageList = this.state.messages;
         var messageBody = document.querySelector(".messages");
         return(
-            <div>
+            <div id="chatroom-display">
                 {/* show chats */}
                 {/* show chat input box*/}
-                <nav>
+                <div id="chatroom-nav">
                     <Button id="returnLobby" onClick={this.returnToLobby}>Return to Lobby</Button>
-                </nav>
+                </div>
                 
-                <h1>Current Chatroom: {this.props.roomID}</h1>
+                <h1 id="curr-chat">Current Chatroom: {this.props.roomID}</h1>
                 <div className="messageContainer">
                     <div className="messages">
                         {messageList.map((message) => {

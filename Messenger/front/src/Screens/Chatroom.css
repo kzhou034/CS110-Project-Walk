@@ -1,19 +1,36 @@
-nav {
+#chatroom-display {
+    position: absolute;
+    width: 100%;
+}
+
+#chatroom-nav {
     position: fixed;
     top: 0%;
-    height: 50px;
+    height: 20px;
+    margin-bottom: 10px;
     width: 100%;
     z-index: 4;
     
 }
 
-#returnLobby {
+#curr-chat {
+    margin-top: 50px;
+    margin-left: 30px;
+}
 
-    
+#returnLobby {
+    border: 2px solid;
+    border-radius: 16px;
+    margin: 5px;
+}
+
+#returnLobby:hover {
+    background-color: white;
 }
 
 h1 {
-    padding: 10px;
+    padding-left: 5px;
+    padding-top: 10px;
 }
 
 h3 {

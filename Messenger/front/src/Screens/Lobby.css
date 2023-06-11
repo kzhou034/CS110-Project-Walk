@@ -1,25 +1,58 @@
-.navOptions {
+#navOptions {
     top: 10px;
     margin-right: 20px;
     left: 10px;
+    border: 2px solid;
+    border-radius: 16px;
+}
+
+#navOptions:hover {
+    background-color: white;
 }
 
 .room-buttons {
     margin-left: 6%;
     margin-bottom: 2%;
+
 }
 
-.formOptions {
+#formOptions {
     position: absolute;
     top: 40%;
 }
 
-/* .lobby-display {
-    align-content: center;
-} */
+#roomButton {
+    margin-left: 15px;
+    margin-bottom: 5px;
+    
+}
+
+#yourchats {
+    border-right: 2px solid;
+    border-radius: 16px;
+    width: 300px;
+    margin-top: 100px;
+    padding-bottom: 20px;
+    position: absolute;
+    margin-left: 50px;
+}
+
+#lobby-bg {
+    position: absolute;
+}
+
+#lobby-display {
+    position: absolute;
+}
+
+#lobby-header {
+    position: absolute;
+    margin-left: 30px;
+}
 
 @media (max-width: 650px) {
- .navOptions {
+ #navOptions {
+    margin-top: 20px;
     top: 35px;
  }
 }

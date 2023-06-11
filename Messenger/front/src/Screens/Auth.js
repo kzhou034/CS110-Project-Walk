@@ -80,22 +80,22 @@ class Auth extends react.Component{
             let fields = [];
             if (this.state.selectedForm === "login"){
                 fields = ['username', 'password'];
-                display = <Form fields={fields} close={this.closeForm} type="login" submit={this.login} key={this.state.selectedForm}/>;
+                display = <Form id="form-auth-display" fields={fields} close={this.closeForm} type="login" submit={this.login} key={this.state.selectedForm}/>;
             }
             else if (this.state.selectedForm === "register"){
                 fields = [ 'username', 'password', 'name'];
-                display = <Form fields={fields} close={this.closeForm} type="register" submit={this.register} key={this.state.selectedForm}/>;
+                display = <Form id="form-auth-display" fields={fields} close={this.closeForm} type="register" submit={this.register} key={this.state.selectedForm}/>;
             }   
         }
         else{
             display = <div className="first-options">
-                <Button className="options" onClick={() => this.setState({showForm: true, selectedForm:"login"})}> Login </Button>
+                <Button id="options" onClick={() => this.setState({showForm: true, selectedForm:"login"})}> Login </Button>
                 
-                <Button className="options" onClick={() => this.setState({showForm: true, selectedForm: "register"})}> Register </Button>
+                <Button id="options" onClick={() => this.setState({showForm: true, selectedForm: "register"})}> Register </Button>
                 </div>              
         }
         return(
-            <div>
+            <div id="auth-header">
                 <h1> Welcome to our Chat App! </h1>
                 {display}
             </div>

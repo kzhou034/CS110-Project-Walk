@@ -52,6 +52,9 @@ import '@fontsource/roboto/700.css';
 
 import ScreenHandler from './ScreenHandler';
 
+import './day.jpg'
+import './night1.png'
+
 let reached = false;
 let adjusting = 0;
 
@@ -59,6 +62,7 @@ function App() {
   const [selectedScreen, setSelectedScreen] = React.useState(0);
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const [mode, setMode] = React.useState('light');
+  const [bg, setBG] = React.useState(0);
 
   React.useEffect(() => {
     if (localStorage.getItem('mode') !== null)
@@ -101,6 +105,9 @@ function App() {
           {mode === 'light' ? <BedtimeIcon /> : <LightModeIcon />}
         </IconButton>
       </ThemeProvider>
+      <div className="background">
+        {mode === 'light' ? <img src={require('./day.jpg')} alt="lightmode bg"/> : <img src={require('./night1.png')} alt="darkmode bg"/>}
+      </div>
     </ColorModeContext.Provider>
   );
 }

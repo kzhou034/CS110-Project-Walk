@@ -2,9 +2,14 @@
     margin: 15px;
 }
 
-.options {
+#options {
     margin: 20px;
     width: 200px;
     border: 2px solid;
     border-radius: 16px;
+}
+
+#auth-header {
+    position: absolute;
+    margin-left: 30px;
 }
