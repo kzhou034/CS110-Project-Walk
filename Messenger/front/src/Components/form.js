@@ -1,5 +1,6 @@
 import react from "react";
 import { Button, TextField } from "@mui/material";
+import "./form.css"
 
 class Form extends react.Component{
     constructor(props){
@@ -35,29 +36,40 @@ class Form extends react.Component{
 
     render(){
         return (
-            <div>
-                <div>
-                    <Button onClick={this.props.close}> x </Button>
-                    <h3> {this.props.type} </h3>
-                </div>
+            <div className="form-appear">
+                <div className="form-box">
+                    <div className="inside">
+                        <div>
+                            <h3> {this.props.type} </h3>
+                        </div>
 
-                <form onSubmit={this.handleSubmit}>
-                    {this.state.fields.map((field, index) => {
-                        return(
-                            <div>
-                                <TextField 
-                                    variant="standard" 
-                                    key={"auth"+field[1]} 
-                                    label={field[1]} 
-                                    onChange={(event) => this.handleChange(event, index)}
-                                />
+                        <form onSubmit={this.handleSubmit}>
+                            {this.state.fields.map((field, index) => {
+                                return(
+                                    <div>
+                                        <TextField className="text-field"
+                                            variant="standard" 
+                                            key={"auth"+field[1]} 
+                                            label={field[1]} 
+                                            onChange={(event) => this.handleChange(event, index)}
+                                        />
+                                    </div>
+                                );
+                            })}
+                            <div className="text-submit">
+                                <input type="submit"></input>
                             </div>
-                        );
-                    })}
-                    <input type="submit"></input>
-                </form>
+                        </form>
+                        <div className="cancel">
+                            <div className="cancel-button" >
+                            <Button onClick={this.props.close}> Cancel </Button>
+                            </div>
+                        </div>
+                    </div>
 
+                </div>
             </div>
+            
         );
     }
 }

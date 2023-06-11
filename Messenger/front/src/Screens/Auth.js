@@ -2,6 +2,7 @@ import react from "react";
 import Form from "../Components/form.js";
 import { Button } from "@mui/material";
 import {io} from "socket.io-client";
+import "./Auth.css"
 
 class Auth extends react.Component{
     constructor(props){
@@ -87,14 +88,15 @@ class Auth extends react.Component{
             }   
         }
         else{
-            display = <div>
-                <Button onClick={() => this.setState({showForm: true, selectedForm:"login"})}> Login </Button>
-                <Button onClick={() => this.setState({showForm: true, selectedForm: "register"})}> Register </Button>
+            display = <div className="first-options">
+                <Button className="options" onClick={() => this.setState({showForm: true, selectedForm:"login"})}> Login </Button>
+                
+                <Button className="options" onClick={() => this.setState({showForm: true, selectedForm: "register"})}> Register </Button>
                 </div>              
         }
         return(
             <div>
-                <h1> Welcome to our website! </h1>
+                <h1> Welcome to our Chat App! </h1>
                 {display}
             </div>
         );

@@ -6,9 +6,7 @@ import "./Chatroom.css"
 
 class Chatroom extends React.Component{
     constructor(props){
-        console.log(props)
         super(props);
-        console.log(props)
         this.socket = io('http://localhost:3001', {
             cors: {
                 origin: 'http://localhost:3001',
@@ -62,7 +60,7 @@ class Chatroom extends React.Component{
     handleSubmit = (e) => {
         e.preventDefault();
         if(this.state.text.trim() != "") {
-            console.log(this.props.username)
+            console.log(this.props)
             const newMessage = {
                 text: this.state.text,
                 sender: this.props.username,
@@ -75,29 +73,36 @@ class Chatroom extends React.Component{
 
     render(){
         const messageList = this.state.messages;
+        var messageBody = document.querySelector(".messages");
         return(
             <div>
                 {/* show chats */}
                 {/* show chat input box*/}
                 <nav>
-                    <Button onClick={this.returnToLobby}>Return to Lobby</Button>
+                    <Button id="returnLobby" onClick={this.returnToLobby}>Return to Lobby</Button>
                 </nav>
                 
                 <h1>Current Chatroom: {this.props.roomID}</h1>
-                <ul>
-                    {messageList.map((message) => {
-                        return <div class="messageList">
-                            <li>
-                                <strong>{message.sender}: </strong>
-                                {message.message.text}
-                            </li>
-                        </div> 
-                    })}
-                </ul>
-                <form id="content" onSubmit={this.handleSubmit} >
-                    <input id="newPost_text" type="text" placeholder='Send a message...' onChange={this.handleChange}></input>
-                    <button id="newPost_submit" >Submit</button>
-                </form>
+                <div className="messageContainer">
+                    <div className="messages">
+                        {messageList.map((message) => {
+                            return <div className="messagePost" {...messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight}>
+                                <ul>
+                                    <strong>{message.sender}: </strong>
+                                    {message.message.text}
+                                </ul>
+                            </div> 
+                        })}
+                    </div>
+                    <form id="content" onSubmit={this.handleSubmit}>
+                        <div id="textStuff">
+                            <input id="newPost_text" type="text" placeholder='Send a message...' onChange={this.handleChange}></input>
+                            <button id="newPost_submit">Send Message</button>
+                        </div>
+                    </form>
+                </div>
+                
+                
             </div>
         );
     }

@@ -1,0 +1,25 @@
+.navOptions {
+    top: 10px;
+    margin-right: 20px;
+    left: 10px;
+}
+
+.room-buttons {
+    margin-left: 6%;
+    margin-bottom: 2%;
+}
+
+.formOptions {
+    position: absolute;
+    top: 40%;
+}
+
+/* .lobby-display {
+    align-content: center;
+} */
+
+@media (max-width: 650px) {
+ .navOptions {
+    top: 35px;
+ }
+}

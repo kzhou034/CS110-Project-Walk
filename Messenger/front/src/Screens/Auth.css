@@ -1,0 +1,10 @@
+.first-options {
+    margin: 15px;
+}
+
+.options {
+    margin: 20px;
+    width: 200px;
+    border: 2px solid;
+    border-radius: 16px;
+}

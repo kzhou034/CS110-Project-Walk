@@ -3,6 +3,7 @@ import Auth from './Screens/Auth.js';
 import Lobby from "./Screens/Lobby.js";
 import Chatroom from "./Screens/Chatroom.js";
 import { Button } from '@mui/material';
+import "./ScreenHandler.css"
 
 const server_url = "http://localhost:3001";
 
@@ -81,7 +82,10 @@ class ScreenHandler extends react.Component{
         else if (this.state.screen == "lobby"){
             display = 
             <div>
-                <Button onClick={this.logout}>Logout</Button>
+                <div id="logout">
+                    <Button id="logout-button" onClick={this.logout}>Logout</Button>
+                </div>
+                
                 <Lobby server_url = {server_url} changeScreen={this.changeScreen} changeRoom={this.changeRoom} roomID={this.state.roomID}/>
             </div>
         }

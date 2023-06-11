@@ -1,7 +1,7 @@
 import react from "react";
 import Form from "../Components/form.js";
 import { Button } from "@mui/material";
-
+import "./Lobby.css"
 // const socketIO = require('socket.io');
 import {io} from "socket.io-client";
 const socket = io.connect("http://localhost:3001");
@@ -9,7 +9,6 @@ const socket = io.connect("http://localhost:3001");
 class Lobby extends react.Component{
     constructor(props){
         super(props);
-        console.log(props)
         this.state = {
             rooms: undefined,
             user: undefined,
@@ -97,20 +96,20 @@ class Lobby extends react.Component{
         fields = ['name'];
         if (this.state.showForm){
             if (this.state.selectedForm === "create_room"){
-                display = <Form fields={fields} close={this.closeForm} type="Create Room" submit={this.create} key={this.state.selectedForm}/>
+                display = <Form className="formOptions" fields={fields} close={this.closeForm} type="Create Room" submit={this.create} key={this.state.selectedForm}/>
             }
             else if (this.state.selectedForm === "join_room"){
-                display = <Form fields={fields} close={this.closeForm} type="Join Room" submit={this.join} key={this.state.selectedForm}/>
+                display = <Form className="formOptions" fields={fields} close={this.closeForm} type="Join Room" submit={this.join} key={this.state.selectedForm}/>
             }
             else if (this.state.selectedForm === "leave_room"){
-                display = <Form fields={fields} close={this.closeForm} type="Leave Room" submit={this.leave} key={this.state.selectedForm}/>
+                display = <Form className="formOptions" fields={fields} close={this.closeForm} type="Leave Room" submit={this.leave} key={this.state.selectedForm}/>
             }
         }
         else{
-            display = <div>
-                <Button onClick={() => this.setState({showForm: true, selectedForm:"create_room"})}> Create a Chatroom </Button>
-                <Button onClick={() => this.setState({showForm: true, selectedForm: "join_room"})}> Join a Chatroom </Button>
-                <Button onClick={() => this.setState({showForm: true, selectedForm: "leave_room"})}> Leave a Chatroom </Button>
+            display = <div >
+                <Button className="navOptions" onClick={() => this.setState({showForm: true, selectedForm:"create_room"})}> Create a Chatroom </Button>
+                <Button className="navOptions" onClick={() => this.setState({showForm: true, selectedForm: "join_room"})}> Join a Chatroom </Button>
+                <Button className="navOptions" onClick={() => this.setState({showForm: true, selectedForm: "leave_room"})}> Leave a Chatroom </Button>
             </div>
         }
 
@@ -128,11 +127,17 @@ class Lobby extends react.Component{
             // </div> 
             <div>
                 {display}
-                <h1>Lobby</h1>
-                <h3>Your Chatrooms: </h3>
-                {this.state.rooms ? this.state.rooms.map((room) => {
-                    return <Button variant="contained" key={"roomKey"+room} onClick={() => this.enterChat(room)}>{room}</Button>
-                }) : "loading..."}
+                <div className="lobby-display">
+                    <br></br>
+                    <h1>Lobby</h1>
+                    <h3>Your Chatrooms: </h3>
+                    {this.state.rooms ? this.state.rooms.map((room) => {
+                        return <display className="room-buttons">
+                            <Button variant="contained" key={"roomKey"+room} onClick={() => this.enterChat(room)}>{room}</Button>
+                        </display>
+                    }) : "loading..."}
+                </div>
+                
                 
             </div>
         )

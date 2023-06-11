@@ -1,0 +1,16 @@
+#logout {
+    width: 80%;
+}
+
+#logout-button {
+    top: 10px;
+    position: fixed;
+    right: 10%;
+    width: 55;
+}
+
+@media (max-width: 550px) {
+    #logout-button {
+        right: 25%;
+    }
+}

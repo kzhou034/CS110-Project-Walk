@@ -1,0 +1,55 @@
+.form-box {
+    border: 2px solid;
+    border-radius: 16px;
+    width: 300px;
+    position: fixed;
+    left: 37%;
+    top: 15px;
+}
+
+.inside {
+    margin-left: 15px;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.cancel {
+    width: 80%;
+}
+
+.cancel-button {
+    width: 70px;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+}
+
+.text-field {
+    width: 150px;
+    left: 15px;
+    bottom: 15px;
+}
+
+.text-submit {
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+}
+
+@media (max-width: 750px) {
+    .form-box {
+        left: 25%;
+    }
+}
+
+@media (max-width: 470px) {
+    .form-box {
+        left: 15%;
+    }
+}
+
+@media (max-width: 400px) {
+    .form-box {
+        left: 10%;
+    }
+}
