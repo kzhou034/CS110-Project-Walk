@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Button } from '@mui/material';
 import {io} from 'socket.io-client'
+import "./Chatroom.css"
 // import room from "../../../back/model/room";
 
 class Chatroom extends React.Component{
     constructor(props){
+        console.log(props)
         super(props);
+        console.log(props)
         this.socket = io('http://localhost:3001', {
             cors: {
                 origin: 'http://localhost:3001',
@@ -76,14 +79,19 @@ class Chatroom extends React.Component{
             <div>
                 {/* show chats */}
                 {/* show chat input box*/}
-                <Button onClick={this.returnToLobby}>Return to Lobby</Button>
+                <nav>
+                    <Button onClick={this.returnToLobby}>Return to Lobby</Button>
+                </nav>
+                
                 <h1>Current Chatroom: {this.props.roomID}</h1>
                 <ul>
                     {messageList.map((message) => {
-                        return <li>
-                            <strong>{message.sender}: </strong>
-                            {message.message.text}
-                        </li>
+                        return <div class="messageList">
+                            <li>
+                                <strong>{message.sender}: </strong>
+                                {message.message.text}
+                            </li>
+                        </div> 
                     })}
                 </ul>
                 <form id="content" onSubmit={this.handleSubmit} >

@@ -60,8 +60,10 @@ class Auth extends react.Component{
             body: JSON.stringify(data),
         }).then((res) => {
             res.json().then((data) => {
-                if(data.msg == "Logged in") {
-                    this.props.changeScreen("lobby");
+                console.log(data.msg)
+                if(data.msg !== "User already taken") {
+                    alert("User registered. Proceed to Login page")
+                    this.props.changeScreen("auth");
                 }
                 else {
                     alert(data.msg);
@@ -88,7 +90,7 @@ class Auth extends react.Component{
             display = <div>
                 <Button onClick={() => this.setState({showForm: true, selectedForm:"login"})}> Login </Button>
                 <Button onClick={() => this.setState({showForm: true, selectedForm: "register"})}> Register </Button>
-                </div>              ;
+                </div>              
         }
         return(
             <div>

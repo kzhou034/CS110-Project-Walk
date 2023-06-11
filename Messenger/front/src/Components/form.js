@@ -27,7 +27,10 @@ class Form extends react.Component{
         for (let i = 0; i < fields.length; i++) {
             data[fields[i][1]] = fields[i][0];
         }
+        
         this.props.submit(data);
+        this.props.close();
+        
     }
 
     render(){

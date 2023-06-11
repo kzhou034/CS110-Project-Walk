@@ -52,20 +52,32 @@ router.post('/signup', async (req, res)=>{
   const {username, password, name} = req.body;
   console.log("this is the req.body: " + req.body)
   console.log(username, password, name)
-  const user = new User ({
+
+  //prevents duplicate user names
+  const userExists = await User.findOne({ username }); //search if user is in database
+  if (!userExists) { 
+    //if user does NOT exist, create one
+    const user = new User ({
       username: username,
       password: password,
       name: name
-  })
-
-  try{
+    })
+    //save the user to database
+    try{
       const dataSaved = await user.save();
       console.log("datasaved: " + dataSaved)
       res.status(200).json(dataSaved);
+    }
+    catch (error){
+        console.log(error);
+        res.send("ERROR!")
+    }
+    
+    console.log("user created")
   }
-  catch (error){
-      console.log(error);
-      res.send("ERROR!")
+  else {
+    console.log("user exists")
+    return res.json({ msg: "User already taken", status: false });
   }
-  
+
 });

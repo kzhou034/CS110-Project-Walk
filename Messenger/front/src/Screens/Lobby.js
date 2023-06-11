@@ -9,9 +9,12 @@ const socket = io.connect("http://localhost:3001");
 class Lobby extends react.Component{
     constructor(props){
         super(props);
+        console.log(props)
         this.state = {
             rooms: undefined,
-            user: undefined
+            user: undefined,
+            showForm: false,
+            selectedForm: undefined,
         }
     }
 
@@ -74,29 +77,65 @@ class Lobby extends react.Component{
             },
             body: JSON.stringify(data),
         });
+        //button to join room disappears upon submission
+        this.state.rooms.splice(this.state.rooms.indexOf(data), 1);
+        this.setState({ rooms: this.state.rooms });
     }
 
     enterChat = (roomID) => {
-        this.props.changeRoom(roomID);
-        this.props.changeScreen("chatroom");
+        this.props.changeRoom(roomID)
+        this.props.changeScreen("chatroom")
     };
 
+    closeForm = () => {
+        this.setState({showForm: false})
+    }
+
     render(){
+        let display = null;
         let fields = [];
         fields = ['name'];
+        if (this.state.showForm){
+            if (this.state.selectedForm === "create_room"){
+                display = <Form fields={fields} close={this.closeForm} type="Create Room" submit={this.create} key={this.state.selectedForm}/>
+            }
+            else if (this.state.selectedForm === "join_room"){
+                display = <Form fields={fields} close={this.closeForm} type="Join Room" submit={this.join} key={this.state.selectedForm}/>
+            }
+            else if (this.state.selectedForm === "leave_room"){
+                display = <Form fields={fields} close={this.closeForm} type="Leave Room" submit={this.leave} key={this.state.selectedForm}/>
+            }
+        }
+        else{
+            display = <div>
+                <Button onClick={() => this.setState({showForm: true, selectedForm:"create_room"})}> Create a Chatroom </Button>
+                <Button onClick={() => this.setState({showForm: true, selectedForm: "join_room"})}> Join a Chatroom </Button>
+                <Button onClick={() => this.setState({showForm: true, selectedForm: "leave_room"})}> Leave a Chatroom </Button>
+            </div>
+        }
+
         return(
+            // <div>
+            //     <h1>Lobby</h1>
+            //     {this.state.rooms ? this.state.rooms.map((room) => {
+            //         return <Button variant="contained" key={"roomKey"+room} onClick={() => this.enterChat(room)}>{room}</Button>
+            //     }) : "loading..."}
+            //     {/* write codes to enable user to create a new room*/}
+            //         <Form fields={fields} close={this.closeForm} type="Create Room" submit={this.create} key={this.rooms}/>
+            //     {/* write codes to join a new room using room id */}
+            //         <Form fields={fields} type="Join Room" submit={this.join} key={this.rooms}/>
+            //         <Form fields={fields} type="Leave Room" submit={this.leave} key={this.rooms}/>
+            // </div> 
             <div>
+                {display}
                 <h1>Lobby</h1>
+                <h3>Your Chatrooms: </h3>
                 {this.state.rooms ? this.state.rooms.map((room) => {
                     return <Button variant="contained" key={"roomKey"+room} onClick={() => this.enterChat(room)}>{room}</Button>
                 }) : "loading..."}
-                {/* write codes to enable user to create a new room*/}
-                    <Form fields={fields} type="Create Room" submit={this.create} key={this.rooms}/>
-                {/* write codes to join a new room using room id */}
-                    <Form fields={fields} type="Join Room" submit={this.join} key={this.rooms}/>
-                    <Form fields={fields} type="Leave Room" submit={this.leave} key={this.rooms}/>
+                
             </div>
-        );
+        )
     }
 }
 
