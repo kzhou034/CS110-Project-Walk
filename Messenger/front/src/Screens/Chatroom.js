@@ -152,7 +152,7 @@ class Chatroom extends React.Component{
                                 <ul>
                                     <strong>{message.sender}: </strong>
                                     {message.message.text}
-                                    <Button id="editMessage" onClick={() => this.handleEdit(message.sender, message)}>Edit Message</Button>
+                                    <Button id="editMessage" onClick={() => this.handleEdit(message.sender, message)}>Edit</Button>
                                 </ul>
                             </div> 
                         })}
