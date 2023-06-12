@@ -17,7 +17,10 @@ class Chatroom extends React.Component{
             messages: [],
             text: '',
             room: null,
-            scroll: undefined
+            scroll: undefined,
+            edit: false,
+            editMessage: null,
+            editMessageText: '',
         }
     }
 
@@ -35,7 +38,30 @@ class Chatroom extends React.Component{
             })
         }).then(() => {
             this.socket.on("incomingMessage", this.incomingMessage);
+        }).then(() => {
+            this.socket.on("incomingEditedMessage", this.incomingEditedMessage);
         });
+    }
+
+    incomingEditedMessage = (message) => {
+        for(let i = 0; i < this.state.messages.length; ++i) {
+            if(message._id === this.state.messages[i]._id) {
+                this.state.messages[i].message.text = message.message.text;
+                this.setState({ messages: this.state.messages });
+            }
+        }
+    }
+
+    incomingMessage = (message) => {
+        const newMessage = {
+            message: {
+                text: message.text,
+            },
+            room: message.room,
+            sender: message.sender,
+        }
+        const updatedMessageList = [...this.state.messages, newMessage];
+        this.setState({ messages: updatedMessageList });
     }
 
     incomingMessage = (message) => {
@@ -72,6 +98,39 @@ class Chatroom extends React.Component{
         }
     }
 
+    handleEdit = (sender, message) => {
+        if (this.props.username != sender)
+            alert("You can only edit your own messages!");
+        else {
+            if (this.state.edit)
+                this.setState({edit: false});
+            else  {
+                this.setState({edit: true});
+                this.setState({editMessage: message});
+                this.setState({editMessageText: message.message.text})
+            }
+        }
+    }
+
+    handleEditChange = (e) => {
+        this.setState({ editMessageText: e.target.value });
+    }
+
+    handleEditSubmit = (e) => {
+        e.preventDefault();
+        if(this.state.editMessageText.trim() != "") {
+            const editedMessage = {
+                _id : this.state.editMessage._id,
+                message: {
+                    text: this.state.editMessageText,
+                },
+                room: this.state.editMessage.room,
+                sender: this.state.editMessage.sender,
+            };
+            this.socket.emit("editMessage", editedMessage);
+        }
+    }
+
     render(){
         const messageList = this.state.messages;
         var messageBody = document.querySelector(".messages");
@@ -91,6 +150,7 @@ class Chatroom extends React.Component{
                                 <ul>
                                     <strong>{message.sender}: </strong>
                                     {message.message.text}
+                                    <Button id="editMessage" onClick={() => this.handleEdit(message.sender, message)}>Edit Message</Button>
                                 </ul>
                             </div> 
                         })}
@@ -103,7 +163,17 @@ class Chatroom extends React.Component{
                     </form>
                 </div>
                 
-                
+                <div>
+                { this.state.edit && 
+                    <form id="content" onSubmit={this.handleEditSubmit}>
+                        <div id="textStuff">
+                            <input id="newPost_text" type="text" placeholder='Edit message...' defaultValue={this.state.editMessageText} onChange={this.handleEditChange}></input>
+                            <button id="newPost_submit">Edit Message</button>
+                        </div>
+                    </form>
+                }
+                </div>
+
             </div>
         );
     }

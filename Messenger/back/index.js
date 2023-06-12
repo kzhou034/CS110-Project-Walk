@@ -111,4 +111,10 @@ io.on('connection', (socket)=>{
     await newMessage.save();
     io.emit('incomingMessage', message);
   });
+  socket.on("editMessage", async (editedMessage) => {
+    const message = await Messages.findOne({ _id: editedMessage._id });
+    message.message.text = editedMessage.message.text;
+    await message.save();
+    io.emit('incomingEditedMessage', message)
+  });
 });
