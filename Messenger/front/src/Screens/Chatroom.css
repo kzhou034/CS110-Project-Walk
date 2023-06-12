@@ -14,8 +14,12 @@
 }
 
 #curr-chat {
-    margin-top: 50px;
-    margin-left: 30px;
+    width: 100%;
+}
+
+#chat-header {
+    margin: 0;
+    text-align: center;
 }
 
 #returnLobby {
@@ -51,7 +55,7 @@ h3 {
 }
 
 .messages {
-    height: 400px;
+    height: 385px;
     overflow-y: auto;
 }
 
@@ -79,4 +83,13 @@ h3 {
     margin-left: 15px;
     margin-right: 15px;
     margin-bottom: 10px;
+}
+
+#edit-form {
+    position:absolute;
+    width: 100%;
+}
+
+#theform {
+    margin-left: 10%;
 }

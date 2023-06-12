@@ -142,7 +142,9 @@ class Chatroom extends React.Component{
                     <Button id="returnLobby" onClick={this.returnToLobby}>Return to Lobby</Button>
                 </div>
                 
-                <h1 id="curr-chat">Current Chatroom: {this.props.roomID}</h1>
+                <div id="curr-chat">
+                    <h1 id="chat-header">Current Chatroom: {this.props.roomID}</h1>
+                </div>
                 <div className="messageContainer">
                     <div className="messages">
                         {messageList.map((message) => {
@@ -163,14 +165,16 @@ class Chatroom extends React.Component{
                     </form>
                 </div>
                 
-                <div>
+                <div id="edit-form">
                 { this.state.edit && 
-                    <form id="content" onSubmit={this.handleEditSubmit}>
-                        <div id="textStuff">
-                            <input id="newPost_text" type="text" placeholder='Edit message...' defaultValue={this.state.editMessageText} onChange={this.handleEditChange}></input>
-                            <button id="newPost_submit">Edit Message</button>
-                        </div>
-                    </form>
+                    <div id="theform">
+                        <form id="content" onSubmit={this.handleEditSubmit}>
+                            <div id="textStuff">
+                                <input id="newPost_text" type="text" placeholder='Edit message...' defaultValue={this.state.editMessageText} onChange={this.handleEditChange}></input>
+                                <button id="newPost_submit">Edit Message</button>
+                            </div>
+                        </form>
+                    </div>
                 }
                 </div>
 
