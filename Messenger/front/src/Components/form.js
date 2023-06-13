@@ -57,12 +57,14 @@ class Form extends react.Component{
                                 );
                             })}
                             <div className="text-submit">
-                                <input type="submit"></input>
+                                {/* <input type="submit"></input> */}
+                                <Button id="submit-text" type="submit"> Submit </Button>
+
                             </div>
                         </form>
                         <div className="cancel">
                             <div className="cancel-button" >
-                            <Button onClick={this.props.close}> Cancel </Button>
+                            <Button id="cancel-text" onClick={this.props.close}> Cancel </Button>
                             </div>
                         </div>
                     </div>

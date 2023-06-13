@@ -176,7 +176,7 @@ class Chatroom extends React.Component{
                         <form id="content" onSubmit={this.handleEditSubmit}>
                             <div id="textStuff">
                                 <input id="newPost_text" type="text" placeholder='Edit message...' defaultValue={this.state.editMessageText} onChange={this.handleEditChange}></input>
-                                <button id="newPost_submit">Edit Message</button>
+                                <Button id="newPost_submit">Edit Message</Button>
                             </div>
                         </form>
                     </div>

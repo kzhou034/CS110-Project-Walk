@@ -80,11 +80,11 @@ class Auth extends react.Component{
             let fields = [];
             if (this.state.selectedForm === "login"){
                 fields = ['username', 'password'];
-                display = <Form id="form-auth-display" fields={fields} close={this.closeForm} type="login" submit={this.login} key={this.state.selectedForm}/>;
+                display = <Form id="form-auth-display" fields={fields} close={this.closeForm} type="Login" submit={this.login} key={this.state.selectedForm}/>;
             }
             else if (this.state.selectedForm === "register"){
                 fields = [ 'username', 'password', 'name'];
-                display = <Form id="form-auth-display" fields={fields} close={this.closeForm} type="register" submit={this.register} key={this.state.selectedForm}/>;
+                display = <Form id="form-auth-display" fields={fields} close={this.closeForm} type="Register" submit={this.register} key={this.state.selectedForm}/>;
             }   
         }
         else{
