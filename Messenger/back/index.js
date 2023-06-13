@@ -20,7 +20,10 @@ const io = socketIO(server, {
   },
 });
 
-app.use(cors({origin: 'http://localhost:3000', credentials:true }))
+app.use(cors({ origin: true, credentials: true }));
+// app.use(cors({origin: 'http://localhost:3000', credentials:true }));
+// // app.use(cors({origin: 'http://http://68.190.197.205:3000', credentials:true}));
+// app.use(cors());
 
 dotenv.config();
 app.use(bodyParser.urlencoded({ extended: true }));

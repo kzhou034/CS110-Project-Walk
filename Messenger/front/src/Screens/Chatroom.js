@@ -150,17 +150,22 @@ class Chatroom extends React.Component{
                         {messageList.map((message) => {
                             return <div className="messagePost" {...messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight}>
                                 <ul>
+                                    <ul>
+                                    <li>
                                     <strong>{message.sender}: </strong>
-                                    {message.message.text}
+                                    </li>
+                                    <div className="themmessages">{message.message.text}</div>
+                                    
                                     <Button id="editMessage" onClick={() => this.handleEdit(message.sender, message)}>Edit</Button>
+                                    </ul>
                                 </ul>
                             </div> 
                         })}
                     </div>
                     <form id="content" onSubmit={this.handleSubmit}>
                         <div id="textStuff">
-                            <input id="newPost_text" type="text" placeholder='Send a message...' onChange={this.handleChange}></input>
-                            <button id="newPost_submit">Send Message</button>
+                            <input id="newPost_text" type="text" placeholder='Send a message...' onChange={this.handleChange} ></input>
+                            <Button id="newPost_submit">Send Message</Button>
                         </div>
                     </form>
                 </div>
@@ -177,7 +182,9 @@ class Chatroom extends React.Component{
                     </div>
                 }
                 </div>
-
+                <script>
+                    
+                </script>
             </div>
         );
     }

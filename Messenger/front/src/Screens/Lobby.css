@@ -4,6 +4,8 @@
     left: 10px;
     border: 2px solid;
     border-radius: 16px;
+    color: rgba(29, 0, 160, 0.459);
+    background-color: rgba(255, 255, 255, 0.363);
 }
 
 #navOptions:hover {
@@ -35,6 +37,7 @@
     padding-bottom: 20px;
     position: absolute;
     margin-left: 50px;
+    background-color: rgba(0, 0, 0, 0.192);
 }
 
 #lobby-bg {
