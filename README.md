@@ -4,6 +4,6 @@ Authors: [Brandon Trieu](https://github.com/btrieu), [Eddy Tat](https://github.c
 
  ## Video Demo
 
- TBD
+ [Link to Demo](https://youtu.be/vgCz3s72wYA)
 
  
