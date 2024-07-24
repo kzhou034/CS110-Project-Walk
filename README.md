@@ -19,4 +19,7 @@ There is currently no official release, so the application is only run locally t
 
 [![Project Walk Demo](https://img.youtube.com/vi/vgCz3s72wYA/0.jpg)](https://www.youtube.com/watch?v=vgCz3s72wYA)
 
+ ## Attributions
+ https://wall.alphacoders.com/big.php?i=612527 - night background
  
+ https://wall.alphacoders.com/big.php?i=1005884 - day backgorund
